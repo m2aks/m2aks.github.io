@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator</title>
+    <style>
+    
+     
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color:  #0f172a;
+    font-family: Arial, sans-serif;
+}
+
+
+.calculator-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fff;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    width: 300px;
+}
+
+h1 {
+    margin: 0 0 20px 0;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+#screen {
+    width: 100%;
+    height: 60px;
+    background-color: #222;
+    color: #fff;
+    font-size: 2rem;
+    text-align: right;
+    padding: 10px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+
+.buttons-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    width: 100%;
+}
+
+button {
+    height: 60px;
+    border-radius: 12px;
+    border: none;
+    background-color: #e4e6eb;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background-color: #d8dadf;
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+.operator {
+    background-color: #ff9500;
+    color: white;
+}
+
+.operator:hover {
+    background-color: #e68600;
+}
+.backspace {
+    background-color: rgb(230, 81, 55);
+    color: white;
+}
+.backspace:hover {
+    background-color: rgb(173, 64, 45);
+}
+.equals {
+    background-color: #2ec4b6;
+    color: white;
+}
+
+.clear {
+    background-color: #ff4d4d;
+    color: white;
+}
+    </style>
+</head>
+<body>
+<audio id="myAudio" src="line.mp3" loop></audio>
+    <div class="calculator-card">
+        <h1>Kalkulator</h1>
+        
+        <div id="screen">0</div>
+
+        <div class="buttons-grid" id="btn-container">
+            <button class="clear">C</button>
+            <button class="operator">/</button>
+            <button class="operator">*</button>
+            <button class="operator">-</button>
+            
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button class="operator">+</button>
+            
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button class="equals">=</button>
+
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button class="backspace"><</button>
+
+
+            <button>0</button>
+            <button>.</button>
+        </div>
+    </div>
+
+   <script>
+        var song = document.getElementById('myAudio');
+        const screen = document.getElementById('screen');
+        const container = document.getElementById('btn-container');
+        const listOperator = ['+','-','/','*'];
+        container.addEventListener('click', function(e) {
+            if (e.target.tagName === 'BUTTON') {
+                const btnText = e.target.innerText;
+                const lastChar = screen.innerText.slice(-1);
+                
+                if (btnText === 'C') {
+                    screen.innerText = '0';
+                    screen.style.backgroundColor = "#222";
+                    screen.style.color = "#fff";
+                } 
+                else if (btnText === '=') {
+                    if (screen.innerText === "3105") {
+                       screen.innerText = "ViBZYmlyIE5kdnlu";
+                       screen.style.backgroundColor = "#FFB6C1";
+                       screen.style.color = "#222";
+                       song.play;
+                    } else {
+                        try {
+                            screen.innerText = eval(screen.innerText)
+                        } catch {
+                            screen.innerText = "Error";
+                            
+                        }
+                    }
+                }
+                else if (btnText === "<") {
+                    if (screen.innerText.length > 1) {
+                        screen.innerText = screen.innerText.slice(0,-1);
+                    } else {
+                        screen.innerText = 0;
+                    }
+                }  
+                else if (listOperator.includes(btnText)) {
+                    if (listOperator.includes(lastChar)) {
+                      screen.innerText = screen.innerText.slice(0,-1) + btnText;
+                    }
+                    else {
+                        screen.innerText += btnText;
+                    }
+                }
+            else if (btnText === ".") {
+                let parts = screen.innerText.split(/[+\-*/]/);
+                let lastPart = parts[parts.length - 1];
+
+                if (lastPart === "") {
+                    screen.innerText += "0.";
+                }
+                
+               else if (!lastPart.includes(".")) {
+                    screen.innerText += ".";
+                }
+            }
+                else {
+                    if (screen.innerText === '0' || screen.innerText === 'Error') {
+                        screen.innerText = btnText;
+                    } else {
+                        screen.innerText += btnText;
+                    }
+                }
+
+             }
+             document.addEventListener('keydown', function (e) {
+                if (e.keyCode == "123") {
+                    e.preventDefault ();
+                    return false;
+                } if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J' .charCodeAt(0) || e.keyCode == 'U' .charCodeAt(0)) {
+                     e.preventDefault ();
+                     return false ;            
+                } if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+                    e.preventDefault ();
+                    return false;
+                }
+            })
+        });
+    
+        </script>
+</body>
+</html>
