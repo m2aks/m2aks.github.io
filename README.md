@@ -1,2 +1,2 @@
 # M2AK Profile 
-alt : https://m2aks.github.io
+https://m2aks.github.io
